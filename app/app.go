@@ -1,10 +1,15 @@
 package app
 
-import "github.com/gorilla/mux"
+import (
+	"movieapi/app/database"
+
+	"github.com/gorilla/mux"
+)
 
 // App struct
 type App struct {
 	Router *mux.Router
+	DB     database.MovieDB
 }
 
 // Initialize App
