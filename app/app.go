@@ -20,5 +20,5 @@ func New() *App {
 
 // Initialize Router
 func (a *App) InitializeRouter() {
-	a.Router.HandleFunc("/", nil).Methods("GET")
+	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
 }
