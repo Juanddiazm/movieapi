@@ -27,7 +27,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:9090/api/movies/{The Avengers}",
+					"raw": "http://localhost:9090/api/movies/{title}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -36,7 +36,7 @@
 					"path": [
 						"api",
 						"movies",
-						"{The Avengers}"
+						"{title}"
 					],
 					"query": [
 						{
@@ -56,7 +56,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"rating\": 7.2,\n    \"genres\": [\n        \"Drama\",\n        \"Mystery\",\n        \"Thriller\"\n    ]\n}",
+					"raw": "{\n    \"rating\": 7.2,\n    \"genres\": [\n        \"Drama\",\n        \"Mystery\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -64,7 +64,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:9090/api/movies/{id}",
+					"raw": "http://localhost:9090/api/movies/{mongo-id}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -73,7 +73,7 @@
 					"path": [
 						"api",
 						"movies",
-						"{id}"
+						"{mongo-id}"
 					]
 				}
 			},
