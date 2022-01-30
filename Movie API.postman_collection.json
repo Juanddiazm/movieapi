@@ -1,0 +1,144 @@
+{
+	"info": {
+		"_postman_id": "36b771b8-845f-4f9f-8b14-dd41c601a8ce",
+		"name": "Movie API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Home Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindMovieByTitle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/movies/{The Avengers}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"{The Avengers}"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Iron Man 3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Movie",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"rating\": 7.2,\n    \"genres\": [\n        \"Drama\",\n        \"Mystery\",\n        \"Thriller\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/movies/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindMovie",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/api/movies?releasedYearInferiorRange=2003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"movies"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "Insomnia",
+							"disabled": true
+						},
+						{
+							"key": "releasedYearInferiorRange",
+							"value": "2003"
+						},
+						{
+							"key": "releasedYearSuperiorRange",
+							"value": "2008",
+							"disabled": true
+						},
+						{
+							"key": "ratingInferiorRange",
+							"value": "9.1",
+							"disabled": true
+						},
+						{
+							"key": "ratingSuperiorRange",
+							"value": "9.3",
+							"disabled": true
+						},
+						{
+							"key": "genres",
+							"value": "Drama",
+							"disabled": true
+						},
+						{
+							"key": "genres",
+							"value": "Thriller",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "61f6acac24aa2bf4dd2db0ce",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
