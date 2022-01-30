@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${home/juan/Documents/cursos/movieapi/movieapi}"
+            "program": "${workspaceFolder}/main.go"
         }
     ]
 }

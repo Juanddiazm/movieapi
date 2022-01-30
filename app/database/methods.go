@@ -58,6 +58,6 @@ func (db *DB) UpdateOne(dataBase, col string, filter, update interface{}) (resul
 	// A single document that match with the
 	// filter will get updated.
 	// update contains the filed which should get updated.
-	result, err = collection.UpdateOne(context.TODO(), filter, update)
+	result, err = collection.ReplaceOne(context.TODO(), filter, update)
 	return
 }

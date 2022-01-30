@@ -7,9 +7,10 @@ import (
 
 	"github.com/eefret/gomdb"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func MapPostMovieToBson(movie *models.CreateMovie) bson.M {
+func MapPostMovieToBson(movie *models.PostMovie) bson.M {
 	return bson.M{
 		models.MovieTitle:        movie.Title,
 		models.MovieReleasedYear: movie.ReleasedYear,
@@ -18,7 +19,8 @@ func MapPostMovieToBson(movie *models.CreateMovie) bson.M {
 	}
 }
 
-func MapPostMovieToMovie(id string, movie *models.CreateMovie) *models.Movie {
+func MapPostMovieToMovie(id primitive.ObjectID, movie *models.PostMovie) *models.Movie {
+
 	return &models.Movie{
 		Id:           id,
 		Title:        movie.Title,
@@ -29,8 +31,8 @@ func MapPostMovieToMovie(id string, movie *models.CreateMovie) *models.Movie {
 }
 
 // MapMovieToPostMovie
-func MapMovieToPostMovie(movie *models.Movie) models.CreateMovie {
-	return models.CreateMovie{
+func MapMovieToPostMovie(movie *models.Movie) models.PostMovie {
+	return models.PostMovie{
 		Title:        movie.Title,
 		ReleasedYear: movie.ReleasedYear,
 		Rating:       movie.Rating,
@@ -44,7 +46,7 @@ func MapFindMovieByTitleToFindMovie(findMovieByTitle models.FindMovieByTitle) mo
 	}
 }
 
-func MapMovieResultToMovie(movieResult *gomdb.MovieResult) (*models.CreateMovie, error) {
+func MapMovieResultToMovie(movieResult *gomdb.MovieResult) (*models.PostMovie, error) {
 	year := movieResult.Year
 	// Convert year from string to int32
 	yearInt32, err := strconv.ParseInt(year, 10, 32)
@@ -60,11 +62,14 @@ func MapMovieResultToMovie(movieResult *gomdb.MovieResult) (*models.CreateMovie,
 	}
 
 	genre := movieResult.Genre
-	//TODO: Remove first space
-	// Convert genre from string to []string separated by comma  
+	// Convert genre from string to []string separated by comma
 	genreArray := strings.Split(genre, ",")
+	// Remove the first space from each string element in the array
+	for i, v := range genreArray {
+		genreArray[i] = strings.TrimSpace(v)
+	}
 
-	return &models.CreateMovie{
+	return &models.PostMovie{
 		Title:        movieResult.Title,
 		ReleasedYear: int32(yearInt32),
 		Rating:       float32(ratingFloat32),

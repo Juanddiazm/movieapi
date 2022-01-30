@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"movieapi/app"
 	"movieapi/app/database"
 	"net/http"
@@ -29,7 +29,7 @@ func main() {
 func check(err error) {
 	if err != nil {
 		// Print the error
-		log.Println(err)
+		fmt.Print(err.Error())
 		// The program terminates immediately
 		os.Exit(1)
 	}

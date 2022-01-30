@@ -1,15 +1,17 @@
 package models
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type Movie struct {
-	Id           string   `json:"_id"`
-	Title        string   `json:"title"`
-	ReleasedYear int32    `json:"releasedYear"`
-	Rating       float32  `json:"rating"`
-	Genres       []string `json:"genres"`
+	Id           primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Title        string             `json:"title"`
+	ReleasedYear int32              `json:"releasedYear"`
+	Rating       float32            `json:"rating"`
+	Genres       []string           `json:"genres"`
 }
 
 // Needed for post request
-type CreateMovie struct {
+type PostMovie struct {
 	Title        string   `json:"title"`
 	ReleasedYear int32    `json:"releasedYear"`
 	Rating       float32  `json:"rating"`
@@ -17,7 +19,6 @@ type CreateMovie struct {
 }
 
 type UpdateMovie struct {
-	Id     string   `json:"_id"`
 	Rating float32  `json:"rating"`
 	Genres []string `json:"genres"`
 }
