@@ -5,14 +5,20 @@ import (
 	"fmt"
 	"time"
 
+	// "movieapi/app/models"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+
+	"movieapi/app/config"
 )
 
 type MovieDB interface {
 	Open() error
 	Close() error
+	InsertOne(dataBase, col string, doc interface{}) (*mongo.InsertOneResult, error)
+	UpdateOne(dataBase, col string, filter, update interface{}) (result *mongo.UpdateResult, err error)
+	Query(dataBase, col string, query interface{}, opts *options.FindOptions) (result *mongo.Cursor, err error)
 }
 
 // mongo.Client will be used for further database operation.
@@ -34,7 +40,7 @@ func (db *DB) Open() error {
 		30*time.Second)
 
 	// mongo.Connect return mongo.Client method
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mgConnectionString))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(config.MgConnectionString))
 	if err != nil {
 		return err
 	}

@@ -5,6 +5,7 @@ go 1.17
 require github.com/gorilla/mux v1.8.0
 
 require (
+	github.com/eefret/gomdb v0.0.0-20171206153129-8a1e0abd4449
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect

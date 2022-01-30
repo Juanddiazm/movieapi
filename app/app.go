@@ -26,4 +26,8 @@ func New() *App {
 // Initialize Router
 func (a *App) InitializeRouter() {
 	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
+	// FindMovieByTitle
+	// TODO: Review how take the title from /api/movies/{title}
+	a.Router.HandleFunc("/api/movies" , a.FindMovieByTitleHandler()).Methods("GET")
+	// TODO: Publish the other handlers
 }
