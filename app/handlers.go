@@ -17,6 +17,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+const cannotFindMovieInDB string = "Cannot find movie in DB. err=%v \n"
+
 // IndexHandler is the handler for the index page
 func (a *App) IndexHandler() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
@@ -62,14 +64,14 @@ func (a *App) UpdateMovieHandler() http.HandlerFunc {
 		// Get movie from DB
 		movieList, err := a.findMovieAux(movieFilters)
 		if err != nil {
-			fmt.Printf("cannot find movie in DB. err=%v \n", err)
+			fmt.Printf(cannotFindMovieInDB, err)
 			helpers.SendResponse(writer, request, nil, http.StatusBadRequest)
 			return
 		}
 
 		if len(movieList.Movies) == 0 {
 			err = errors.New("movie not found")
-			fmt.Printf("cannot find movie in DB. err=%v \n", err)
+			fmt.Printf(cannotFindMovieInDB, err)
 			helpers.SendResponse(writer, request, nil, http.StatusBadRequest)
 			return
 		}
@@ -123,23 +125,15 @@ func (a *App) FindMovieByTitleHandler() http.HandlerFunc {
 
 		movieList, err := a.findMovieAux(movieFilter)
 		if err != nil {
-			fmt.Printf("cannot find movie in DB. err=%v \n", err)
+			fmt.Printf(cannotFindMovieInDB, err)
 			helpers.SendResponse(writer, request, nil, http.StatusInternalServerError)
 			return
 		}
 
 		if len(movieList.Movies) == 0 {
-			movie, err := a.findMovieByTitleFromExternalApi(movieTitle.Title)
+			movieCreated, err := a.findMovieToExternalAPIAndSave(movieTitle.Title)
 			if err != nil {
-				fmt.Printf("cannot find movie in external API. err=%v \n", err)
-				helpers.SendResponse(writer, request, nil, http.StatusInternalServerError)
-				return
-			}
-
-			// Create movie in DB
-			movieCreated, err := a.CreateMovieHandler(movie)
-			if err != nil {
-				fmt.Printf("cannot create movie in DB. err=%v \n", err)
+				fmt.Printf(cannotFindMovieInDB, err)
 				helpers.SendResponse(writer, request, nil, http.StatusInternalServerError)
 				return
 			}
@@ -156,6 +150,22 @@ func (a *App) FindMovieByTitleHandler() http.HandlerFunc {
 	}
 }
 
+func (a *App) findMovieToExternalAPIAndSave(title string) (*models.Movie, error) {
+	movie, err := a.findMovieByTitleFromExternalApi(title)
+	if err != nil {
+		fmt.Printf("cannot find movie in external API. err=%v \n", err)
+		return nil, err
+	}
+
+	// Create movie in DB
+	movieCreated, err := a.CreateMovieHandler(movie)
+	if err != nil {
+		fmt.Printf("cannot create movie in DB. err=%v \n", err)
+		return nil, err
+	}
+
+	return movieCreated, nil
+}
 func (a *App) findMovieByTitleFromExternalApi(movieTitle string) (*models.PostMovie, error) {
 	api := gomdb.Init(config.OmbdApiKey)
 	query := &gomdb.QueryData{
@@ -200,7 +210,7 @@ func (a *App) FindMoviesHandler() http.HandlerFunc {
 		var err error
 		movieList, err = a.findMovieAux(movieFilters)
 		if err != nil {
-			fmt.Printf("cannot find movie in DB. err=%v \n", err)
+			fmt.Printf(cannotFindMovieInDB, err)
 			helpers.SendResponse(writer, request, nil, http.StatusInternalServerError)
 			return
 		}
@@ -220,7 +230,7 @@ func (a *App) findMovieAux(movieFilters models.FindMovie) (models.MovieList, err
 	// Find in DB
 	cursor, err := a.DB.Query(config.DbName, config.MovieCollection, &filter, findOptions)
 	if err != nil {
-		fmt.Printf("cannot find movie in DB. err=%v \n", err)
+		fmt.Printf(cannotFindMovieInDB, err)
 		return models.MovieList{}, err
 
 	}
