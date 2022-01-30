@@ -32,5 +32,4 @@ func (a *App) InitializeRouter() {
 	a.Router.HandleFunc("/api/movies/{id}", a.UpdateMovieHandler()).Methods("PUT")
 	// FindMoviesHandler
 	a.Router.HandleFunc("/api/movies", a.FindMoviesHandler()).Methods("GET")
-	// TODO: Publish the other handlers
 }
